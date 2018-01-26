@@ -1,0 +1,27 @@
+{
+  "name": "atena-pdf",
+  "version": "0.1.0-SNAPSHOT",
+  "description": "宛名印刷用PDF生成",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kigh-ota/atena-pdf.git"
+  },
+  "keywords": [
+    "hagaki",
+    "atena",
+    "pdf"
+  ],
+  "author": "Kaiichiro Ota <kigh.ota@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kigh-ota/atena-pdf/issues"
+  },
+  "homepage": "https://github.com/kigh-ota/atena-pdf#readme",
+  "dependencies": {
+    "pdfmake": "^0.1.35"
+  }
+}
