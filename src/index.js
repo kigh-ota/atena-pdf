@@ -18,6 +18,7 @@ const NENGA_POSTCARD = {
     new Box(86.0, 11.7, 6, 8),
   ],
   address: new Box(70, 25, 20, 100),
+  names: new Box(30, 25, 40, 100),
   fromPostalCode: [
     new Box(5,  122.5, 4, 6.5),
     new Box(9,  122.5, 4, 6.5),

@@ -6,7 +6,6 @@ function fillBox(text, box) {
 function addressContent(body, box) {
   const lines = body.length;
   const columns = Math.max.apply(this, body.map(line => line.length));
-  console.log(columns);
   // w <=> lines * fontSize
   // h <=> columns * fontSize
   const ratio = lines / columns;
@@ -30,38 +29,35 @@ function addressContent(body, box) {
   return result;
 }
 
-function namesContent(names, paper, baseY) {
-  let chars = names[0].familyName.split('')
-    .concat(names[0].givenName.split(''));
-  if (names[0].title) {
-    chars = chars.concat(names[0].title.split(''))
-  }
+function namesContent(names, box) {
+  const lines = names.length;
+  const familyNameColumns = Math.max.apply(this, names.map(name => name.familyName.length));
+  const givenNameColumns = Math.max.apply(this, names.map(name => name.givenName.length));
+  const titleColumns = Math.max.apply(this, names.map(name => name.title ? name.title.length : 0));
+  const columns = familyNameColumns + 0.5 + givenNameColumns + 0.5 + titleColumns;
+  const ratio = lines / columns;
+  const targetRatio = box.w() / box.h();
+  const fitByWidth = ratio > targetRatio;
+  const fontSize = fitByWidth ? box.w() / lines : box.h() / columns;
+
   let result = [];
-  chars.forEach((text, i) => {
-    const fontSize = 30;
-    const x = (paper.w() - fontSize) * 0.5;
-    const y = baseY + i * fontSize;
-    if (y + fontSize >= paper.h()) {
-      throw new Error('宛名が用紙をはみ出た');
+  const baseX = box.x() + box.w() / 2 + (lines - 2) * fontSize / 2;
+  names.forEach((name, i) => {
+    const x = baseX - i * fontSize;
+    name.familyName.split('').forEach((text, j) => {
+      const y = box.y() + j * fontSize;
+      result.push({ text, fontSize, absolutePosition: { x, y } });
+    });
+    name.givenName.split('').forEach((text, j) => {
+      const y = box.y() + (familyNameColumns + 0.5 + j) * fontSize;
+      result.push({ text, fontSize, absolutePosition: { x, y } });
+    });
+    if (name.title) {
+      name.title.split('').forEach((text, j) => {
+        const y = box.y() + (familyNameColumns + 0.5 + givenNameColumns + 0.5 + j) * fontSize;
+        result.push({text, fontSize, absolutePosition: {x, y}});
+      });
     }
-    result.push({ text, fontSize, absolutePosition: { x, y } });
-  });
-
-  return result;
-}
-
-function fromNamesContent(names, box) {
-  let chars = names[0].familyName.split('')
-    .concat(names[0].givenName.split(''));
-  if (names[0].title) {
-    chars = chars.concat(names[0].title.split(''))
-  }
-  let result = [];
-  chars.forEach((text, i) => {
-    const fontSize = 15;
-    const x = box.x() + (box.w() - fontSize) * 0.5;
-    const y = box.y() + i * fontSize;
-    result.push({ text, fontSize, absolutePosition: { x, y } });
   });
 
   return result;
@@ -79,16 +75,14 @@ function postalCodeContent(codes, boxes) {
   return result;
 }
 
-function postalCodeCanvas(boxes) {
-  return boxes.map(box => {
-    return {
-      type: 'rect',
-      x: box.x(),
-      y: box.y(),
-      w: box.w(),
-      h: box.h()
-    };
-  });
+function canvasRect(box) {
+  return {
+    type: 'rect',
+    x: box.x(),
+    y: box.y(),
+    w: box.w(),
+    h: box.h()
+  };
 }
 
 exports.makeContent = (data, layout) => {
@@ -96,18 +90,22 @@ exports.makeContent = (data, layout) => {
   let canvas = [];
   // to.postalCode
   result = result.concat(postalCodeContent(data.to.postalCode, layout.postalCode));
-  canvas = canvas.concat(postalCodeCanvas(layout.postalCode));
+  canvas = canvas.concat(layout.postalCode.map(canvasRect));
   // to.address
   result = result.concat(addressContent(data.to.address, layout.address));
+  canvas = canvas.concat(canvasRect(layout.address));
   // to.names
-  result = result.concat(namesContent(data.to.names, layout.paper, mm2pt(30)));
+  result = result.concat(namesContent(data.to.names, layout.names));
+  canvas = canvas.concat(canvasRect(layout.names));
   // from.postalCode
   result = result.concat(postalCodeContent(data.from.postalCode, layout.fromPostalCode));
-  canvas = canvas.concat(postalCodeCanvas(layout.fromPostalCode));
+  canvas = canvas.concat(layout.fromPostalCode.map(canvasRect));
   // from.address
   result = result.concat(addressContent(data.from.address, layout.fromAddress));
+  canvas = canvas.concat(canvasRect(layout.fromAddress));
   // from.names
-  result = result.concat(fromNamesContent(data.from.names, layout.fromNames));
+  result = result.concat(namesContent(data.from.names, layout.fromNames));
+  canvas = canvas.concat(canvasRect(layout.fromNames));
 
   result.push({canvas})
   console.log(result);
