@@ -1,4 +1,4 @@
-const mm2pt = require('./util').mm2pt;
+const mm2pt = require('../util').mm2pt;
 
 exports.makeContent = (data, layout) => {
   let canvas = [];
@@ -10,7 +10,7 @@ exports.makeContent = (data, layout) => {
     const x = box.x + (box.w - fontSize) * 0.5;
     const y = box.y + (box.h - fontSize) * 0.5;
     result.push({
-      text: toFullWidthArabicNumber(data.to.postalCode[i]),
+      text: data.to.postalCode[i],
       fontSize,
       absolutePosition: { x, y }
     });
@@ -32,7 +32,7 @@ exports.makeContent = (data, layout) => {
       throw new Error('住所が用紙をはみ出た');
     }
     result.push({
-      text: toKanjiNumber(c),
+      text: c,
       fontSize: size,
       absolutePosition: { x, y }
     });
@@ -59,7 +59,7 @@ exports.makeContent = (data, layout) => {
     const x = box.x + (box.w - fontSize) * 0.5;
     const y = box.y + (box.h - fontSize) * 0.5;
     result.push({
-      text: toFullWidthArabicNumber(data.to.postalCode[i]),
+      text: data.to.postalCode[i],
       fontSize,
       absolutePosition: { x, y }
     });
@@ -82,7 +82,7 @@ exports.makeContent = (data, layout) => {
       throw new Error('差出人住所が用紙をはみ出た');
     }
     result.push({
-      text: toKanjiNumber(c),
+      text: c,
       fontSize: size,
       absolutePosition: { x, y }
     });
@@ -93,32 +93,4 @@ exports.makeContent = (data, layout) => {
   return result;
 };
 
-function toFullWidthArabicNumber(c) {
-  if (c === '1') return '１';
-  if (c === '2') return '２';
-  if (c === '3') return '３';
-  if (c === '4') return '４';
-  if (c === '5') return '５';
-  if (c === '6') return '６';
-  if (c === '7') return '７';
-  if (c === '8') return '８';
-  if (c === '9') return '９';
-  if (c === '0') return '０';
-  return c;
-}
-
-function toKanjiNumber(c) {
-  const cc = toFullWidthArabicNumber(c);
-  if (cc === '１') return '一';
-  if (cc === '２') return '二';
-  if (cc === '３') return '三';
-  if (cc === '４') return '四';
-  if (cc === '５') return '五';
-  if (cc === '６') return '六';
-  if (cc === '７') return '七';
-  if (cc === '８') return '八';
-  if (cc === '９') return '九';
-  if (cc === '０') return '〇';
-  return cc;
-}
 

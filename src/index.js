@@ -1,22 +1,10 @@
-const PdfPrinter = require('pdfmake/src/printer');
-const fs = require('fs');
-const ContentBuilder = require('./ContentBuilder');
+const PdfGenerator = require('./PdfGenerator/PdfGenerator');
 const mm2pt = require('./util').mm2pt;
-
-const fonts = {
-  IPAexMincho: {
-    normal: 'fonts/ipaexm.ttf',
-    bold: 'fonts/ipaexm.ttf',
-    italics: 'fonts/ipaexm.ttf',
-    bolditalics: 'fonts/ipaexm.ttf'
-  }
-};
-
-const printer = new PdfPrinter(fonts);
 
 // TODO 微調整できる
 // in mm
 // (x,y)は左上
+
 const NENGA_POSTCARD = {
   paper: {x: 0, y: 0, w: mm2pt(100), h: mm2pt(148)},
   postalCode: [
@@ -42,26 +30,35 @@ const NENGA_POSTCARD = {
 };
 
 /**
- * Name {
- *   familyName: "山田",
- *   givenName: "太郎",
- *   title?: "様"
- * }
- * Entry {
- *   postalCode: "5400008",
- *   address: "大阪府大阪市中央区大手前2-1-22",
- *   name: Name,
- *   jointNames?: [Name],
- * }
- * Data {
- *   to: Entry,
- *   from?: Entry
- * }
+ * Data:
+ *   to: [ToEntry]
+ *   from: FromEntry
+ *
+ * ToEntry:
+ *   postalCode
+ *   address
+ *   name: ToName
+ *   jointNames?: [ToName]
+ *
+ * ToName:
+ *   familyName
+ *   givenName
+ *   title?
+ *
+ * FromEntry:
+ *   postalCode
+ *   address
+ *   name: FromName
+ *   jointNames?: [FromName]
+ *
+ * FromName:
+ *   familyName
+ *   givenName
  */
 const testData = {
   to: {
-    postalCode: "5400008",
-    address: "大阪府大阪市中央区大手前2丁目1番22号",
+    postalCode: "５４００００８",
+    address: "大阪府大阪市中央区大手前２丁目１番２２号",
     name: {
       familyName: "山田",
       givenName: "太郎",
@@ -76,8 +73,8 @@ const testData = {
     ]
   },
   from: {
-    postalCode: "1638001",
-    address: "東京都新宿区西新宿２−８−１",
+    postalCode: "１６３８００１",
+    address: "東京都新宿区西新宿２｜８｜１",
     name: {
       familyName: "佐藤",
       givenName: "小太郎"
@@ -85,19 +82,4 @@ const testData = {
   }
 };
 
-const layout = NENGA_POSTCARD;
-
-const docDefinition = {
-  pageSize: {
-    width: layout.paper.w,
-    height: layout.paper.h
-  },
-  pageMargins: [0, 0, 0, 0],
-  defaultStyle: {
-    font: 'IPAexMincho'
-  },
-  content: ContentBuilder.makeContent(testData, layout),
-};
-const pdfDoc = printer.createPdfKitDocument(docDefinition);
-pdfDoc.pipe(fs.createWriteStream('out/print.pdf'));
-pdfDoc.end();
+PdfGenerator.generate(testData, NENGA_POSTCARD);
