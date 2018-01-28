@@ -60,7 +60,7 @@ const NENGA_POSTCARD = {
 const testData = {
   to: {
     postalCode: "５４００００８",
-    address: "大阪府大阪市中央区大手前２丁目１番２２号",
+    address: ['大阪府大阪市中央区大手前２丁目１番２２号', '○○会館△△階'],
     name: {
       familyName: "山田",
       givenName: "太郎",
@@ -75,7 +75,7 @@ const testData = {
   },
   from: {
     postalCode: "１６３８００１",
-    address: "東京都新宿区西新宿２｜８｜１",
+    address: ['東京都新宿区西新宿２｜８｜１'],
     name: {
       familyName: "佐藤",
       givenName: "小太郎"
