@@ -1,5 +1,4 @@
 const PdfGenerator = require('./PdfGenerator/PdfGenerator');
-const mm2pt = require('./util').mm2pt;
 const Box = require('./PdfGenerator/Box');
 
 // TODO 微調整できる
@@ -58,28 +57,28 @@ const NENGA_POSTCARD = {
  */
 const testData = {
   to: {
-    postalCode: "５４００００８",
+    postalCode: '５４００００８',
     address: ['大阪府大阪市中央区大手前２丁目１番２２号', '○○会館△△階'],
     names: [
       {
-        familyName: "山田",
-        givenName: "太郎",
-        title: "様"
+        familyName: '山田',
+        givenName: '太郎',
+        title: '様'
       },
       {
         familyName: '',
-        givenName: "花子",
-        title: "様"
+        givenName: '花子',
+        title: '様'
       }
     ]
   },
   from: {
-    postalCode: "１６３８００１",
+    postalCode: '１６３８００１',
     address: ['東京都新宿区西新宿２｜８｜１'],
     names: [
       {
-        familyName: "佐藤",
-        givenName: "小太郎"
+        familyName: '佐藤',
+        givenName: '小太郎'
       },
       {
         familyName: '',

@@ -1,8 +1,3 @@
-const mm2pt = require('../util').mm2pt;
-
-function fillBox(text, box) {
-}
-
 function addressContent(body, box) {
   const lines = body.length;
   const columns = Math.max.apply(this, body.map(line => line.length));
@@ -107,7 +102,7 @@ exports.makeContent = (data, layout) => {
   result = result.concat(namesContent(data.from.names, layout.fromNames));
   canvas = canvas.concat(canvasRect(layout.fromNames));
 
-  result.push({canvas})
+  result.push({canvas});
   console.log(result);
   return result;
 };

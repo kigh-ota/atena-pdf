@@ -13,6 +13,7 @@ function toFullWidthArabicNumber(c) {
   return c;
 }
 
+// eslint-disable-next-line
 function toKanjiNumber(c) {
   const cc = toFullWidthArabicNumber(c);
   if (cc === '１') return '一';
