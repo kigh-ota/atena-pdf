@@ -1,7 +1,7 @@
 const Box = require('./Box');
 
 // TODO 微調整できる
-// in mm
+// (x,y,w,h) in mm
 // (x,y)は左上
 exports.NENGA_POSTCARD = {
   paper: new Box(0, 0, 100, 148),

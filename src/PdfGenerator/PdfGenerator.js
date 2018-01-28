@@ -21,7 +21,7 @@ exports.generate = (data, layout) => {
     defaultStyle: {
       font: 'IPAexMincho'
     },
-    content: ContentBuilder.makeContent(data, layout),
+    content: new ContentBuilder().build(data, layout, true),
   };
   const printer = new PdfPrinter(fonts);
   const pdfDoc = printer.createPdfKitDocument(docDefinition);
