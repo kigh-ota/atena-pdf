@@ -1,33 +1,34 @@
 const PdfGenerator = require('./PdfGenerator/PdfGenerator');
 const mm2pt = require('./util').mm2pt;
+const Box = require('./PdfGenerator/Box');
 
 // TODO 微調整できる
 // in mm
 // (x,y)は左上
 
 const NENGA_POSTCARD = {
-  paper: {x: 0, y: 0, w: mm2pt(100), h: mm2pt(148)},
+  paper: new Box(0, 0, 100, 148),
   postalCode: [
-    {w: mm2pt(6), h: mm2pt(8), x: mm2pt(43.7), y: mm2pt(11.7)},
-    {w: mm2pt(6), h: mm2pt(8), x: mm2pt(50.8), y: mm2pt(11.7)},
-    {w: mm2pt(6), h: mm2pt(8), x: mm2pt(57.9), y: mm2pt(11.7)},
-    {w: mm2pt(6), h: mm2pt(8), x: mm2pt(65.3), y: mm2pt(11.7)},
-    {w: mm2pt(6), h: mm2pt(8), x: mm2pt(72.2), y: mm2pt(11.7)},
-    {w: mm2pt(6), h: mm2pt(8), x: mm2pt(79.1), y: mm2pt(11.7)},
-    {w: mm2pt(6), h: mm2pt(8), x: mm2pt(86.0), y: mm2pt(11.7)},
+    new Box(43.7, 11.7, 6, 8),
+    new Box(50.8, 11.7, 6, 8),
+    new Box(57.9, 11.7, 6, 8),
+    new Box(65.3, 11.7, 6, 8),
+    new Box(72.2, 11.7, 6, 8),
+    new Box(79.1, 11.7, 6, 8),
+    new Box(86.0, 11.7, 6, 8),
   ],
-  address: {x: mm2pt(70), y: mm2pt(25), w: mm2pt(20), h: mm2pt(100)},
+  address: new Box(70, 25, 20, 100),
   fromPostalCode: [
-    {w: mm2pt(4), h: mm2pt(6.5), x: mm2pt(5), y: mm2pt(122.5)},
-    {w: mm2pt(4), h: mm2pt(6.5), x: mm2pt(9), y: mm2pt(122.5)},
-    {w: mm2pt(4), h: mm2pt(6.5), x: mm2pt(13), y: mm2pt(122.5)},
-    {w: mm2pt(4), h: mm2pt(6.5), x: mm2pt(18), y: mm2pt(122.5)},
-    {w: mm2pt(4), h: mm2pt(6.5), x: mm2pt(22), y: mm2pt(122.5)},
-    {w: mm2pt(4), h: mm2pt(6.5), x: mm2pt(26), y: mm2pt(122.5)},
-    {w: mm2pt(4), h: mm2pt(6.5), x: mm2pt(30), y: mm2pt(122.5)},
+    new Box(5,  122.5, 4, 6.5),
+    new Box(9,  122.5, 4, 6.5),
+    new Box(13, 122.5, 4, 6.5),
+    new Box(18, 122.5, 4, 6.5),
+    new Box(22, 122.5, 4, 6.5),
+    new Box(26, 122.5, 4, 6.5),
+    new Box(30, 122.5, 4, 6.5),
   ],
-  fromAddress: {x: mm2pt(20), y: mm2pt(60), w: mm2pt(15), h: mm2pt(60)},
-  fromName: {x: mm2pt(10), y: mm2pt(60), w: mm2pt(15), h: mm2pt(60)}
+  fromAddress: new Box(20, 60, 15, 60),
+  fromName: new Box(10, 60, 15, 60)
 };
 
 /**

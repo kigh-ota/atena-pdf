@@ -14,8 +14,8 @@ const fonts = {
 exports.generate = (data, layout) => {
   const docDefinition = {
     pageSize: {
-      width: layout.paper.w,
-      height: layout.paper.h
+      width: layout.paper.w(),
+      height: layout.paper.h()
     },
     pageMargins: [0, 0, 0, 0],
     defaultStyle: {
