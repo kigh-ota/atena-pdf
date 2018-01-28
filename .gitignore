@@ -1,3 +1,6 @@
+/fonts/
+/out/*.pdf
+
 # Created by https://www.gitignore.io/api/osx,node,intellij
 
 ### Intellij ###

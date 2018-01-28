@@ -121,5 +121,5 @@ const docDefinition = {
   content: ContentBuilder.makeContent(testData, NENGA_POSTCARD)
 };
 const pdfDoc = printer.createPdfKitDocument(docDefinition);
-pdfDoc.pipe(fs.createWriteStream('print.pdf'));
+pdfDoc.pipe(fs.createWriteStream('out/print.pdf'));
 pdfDoc.end();
