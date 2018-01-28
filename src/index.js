@@ -26,7 +26,8 @@ const NENGA_POSTCARD = {
     {w: mm2pt(4), h: mm2pt(6.5), x: mm2pt(26), y: mm2pt(122.5)},
     {w: mm2pt(4), h: mm2pt(6.5), x: mm2pt(30), y: mm2pt(122.5)},
   ],
-  fromAddress: {x: mm2pt(20), y: mm2pt(60), w: mm2pt(15), h: mm2pt(60)}
+  fromAddress: {x: mm2pt(20), y: mm2pt(60), w: mm2pt(15), h: mm2pt(60)},
+  fromName: {x: mm2pt(10), y: mm2pt(60), w: mm2pt(15), h: mm2pt(60)}
 };
 
 /**
@@ -66,7 +67,6 @@ const testData = {
     },
     jointNames: [
       {
-        familyName: "山田",
         givenName: "花子",
         title: "様"
       }
@@ -78,7 +78,12 @@ const testData = {
     name: {
       familyName: "佐藤",
       givenName: "小太郎"
-    }
+    },
+    jointNames: [
+      {
+        givenName: "恵"
+      }
+    ]
   }
 };
 

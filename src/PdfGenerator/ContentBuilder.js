@@ -88,6 +88,20 @@ exports.makeContent = (data, layout) => {
     });
   });
 
+  // from.name
+  data.from.name.familyName.split('')
+  .concat(data.from.name.givenName.split(''))
+  .forEach((text, i) => {
+    const fontSize = 15;
+    const box = layout.fromName;
+    const x = box.x + (box.w - fontSize) * 0.5;
+    const y = box.y + i * fontSize;
+    if (y + fontSize >= layout.paper.h) {
+      throw new Error('宛名が用紙をはみ出た');
+    }
+    result.push({ text, fontSize, absolutePosition: { x, y } });
+  });
+
   result.push({canvas})
   console.log(result);
   return result;
