@@ -28,7 +28,7 @@ const NENGA_POSTCARD = {
     new Box(30, 122.5, 4, 6.5),
   ],
   fromAddress: new Box(20, 60, 15, 60),
-  fromName: new Box(10, 60, 15, 60)
+  fromNames: new Box(10, 60, 15, 60)
 };
 
 /**
@@ -39,19 +39,17 @@ const NENGA_POSTCARD = {
  * ToEntry:
  *   postalCode
  *   address
- *   name: ToName
- *   jointNames?: [ToName]
+ *   names: [ToName]
  *
  * ToName:
  *   familyName
  *   givenName
- *   title?
+ *   title
  *
  * FromEntry:
  *   postalCode
  *   address
- *   name: FromName
- *   jointNames?: [FromName]
+ *   names: [FromName]
  *
  * FromName:
  *   familyName
@@ -61,13 +59,14 @@ const testData = {
   to: {
     postalCode: "５４００００８",
     address: ['大阪府大阪市中央区大手前２丁目１番２２号', '○○会館△△階'],
-    name: {
-      familyName: "山田",
-      givenName: "太郎",
-      title: "様"
-    },
-    jointNames: [
+    names: [
       {
+        familyName: "山田",
+        givenName: "太郎",
+        title: "様"
+      },
+      {
+        familyName: '',
         givenName: "花子",
         title: "様"
       }
@@ -76,13 +75,14 @@ const testData = {
   from: {
     postalCode: "１６３８００１",
     address: ['東京都新宿区西新宿２｜８｜１'],
-    name: {
-      familyName: "佐藤",
-      givenName: "小太郎"
-    },
-    jointNames: [
+    names: [
       {
-        givenName: "恵"
+        familyName: "佐藤",
+        givenName: "小太郎"
+      },
+      {
+        familyName: '',
+        givenName: '恵'
       }
     ]
   }

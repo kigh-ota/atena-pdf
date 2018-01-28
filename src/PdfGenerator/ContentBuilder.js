@@ -30,83 +30,84 @@ function addressContent(body, box) {
   return result;
 }
 
-exports.makeContent = (data, layout) => {
-  let canvas = [];
-  let result = [];
-  // to.postalCode
-  for (let i = 0; i < 7; i++) {
-    const fontSize = 8;
-    const box = layout.postalCode[i];
-    const x = box.x() + (box.w() - fontSize) * 0.5;
-    const y = box.y() + (box.h() - fontSize) * 0.5;
-    result.push({
-      text: data.to.postalCode[i],
-      fontSize,
-      absolutePosition: { x, y }
-    });
-
-    canvas.push({
-      type: 'rect',
-      x: box.x(),
-      y: box.y(),
-      w: box.w(),
-      h: box.h()
-    });
+function namesContent(names, paper, baseY) {
+  let chars = names[0].familyName.split('')
+    .concat(names[0].givenName.split(''));
+  if (names[0].title) {
+    chars = chars.concat(names[0].title.split(''))
   }
-  // to.address
-  result = result.concat(addressContent(data.to.address, layout.address));
-
-  // to.name
-  data.to.name.familyName.split('')
-  .concat(data.to.name.givenName.split(''))
-  .concat(data.to.name.title.split(''))
-  .forEach((text, i) => {
+  let result = [];
+  chars.forEach((text, i) => {
     const fontSize = 30;
-    const x = (layout.paper.w() - fontSize) * 0.5;
-    const y = mm2pt(30) + i * fontSize
-    if (y + fontSize >= layout.paper.h()) {
+    const x = (paper.w() - fontSize) * 0.5;
+    const y = baseY + i * fontSize;
+    if (y + fontSize >= paper.h()) {
       throw new Error('宛名が用紙をはみ出た');
     }
     result.push({ text, fontSize, absolutePosition: { x, y } });
   });
 
+  return result;
+}
 
-  // from.postalCode
-  for (let i = 0; i < 7; i++) {
-    const fontSize = 8;
-    const box = layout.fromPostalCode[i];
-    const x = box.x() + (box.w() - fontSize) * 0.5;
-    const y = box.y() + (box.h() - fontSize) * 0.5;
-    result.push({
-      text: data.to.postalCode[i],
-      fontSize,
-      absolutePosition: { x, y }
-    });
-
-    canvas.push({
-      type: 'rect',
-      x: box.x(),
-      y: box.y(),
-      w: box.w(),
-      h: box.h()
-    });
+function fromNamesContent(names, box) {
+  let chars = names[0].familyName.split('')
+    .concat(names[0].givenName.split(''));
+  if (names[0].title) {
+    chars = chars.concat(names[0].title.split(''))
   }
-  // from.address
-  result = result.concat(addressContent(data.from.address, layout.fromAddress));
-
-  // from.name
-  data.from.name.familyName.split('')
-  .concat(data.from.name.givenName.split(''))
-  .forEach((text, i) => {
+  let result = [];
+  chars.forEach((text, i) => {
     const fontSize = 15;
-    const box = layout.fromName;
     const x = box.x() + (box.w() - fontSize) * 0.5;
     const y = box.y() + i * fontSize;
-    if (y + fontSize >= layout.paper.h()) {
-      throw new Error('宛名が用紙をはみ出た');
-    }
     result.push({ text, fontSize, absolutePosition: { x, y } });
   });
+
+  return result;
+}
+
+function postalCodeContent(codes, boxes) {
+  let result = [];
+  for (let i = 0; i < 7; i++) {
+    const fontSize = 10;
+    const box = boxes[i];
+    const x = box.x() + (box.w() - fontSize) * 0.5;
+    const y = box.y() + (box.h() - fontSize) * 0.5;
+    result.push({text: codes[i], fontSize, absolutePosition: {x, y}});
+  }
+  return result;
+}
+
+function postalCodeCanvas(boxes) {
+  return boxes.map(box => {
+    return {
+      type: 'rect',
+      x: box.x(),
+      y: box.y(),
+      w: box.w(),
+      h: box.h()
+    };
+  });
+}
+
+exports.makeContent = (data, layout) => {
+  let result = [];
+  let canvas = [];
+  // to.postalCode
+  result = result.concat(postalCodeContent(data.to.postalCode, layout.postalCode));
+  canvas = canvas.concat(postalCodeCanvas(layout.postalCode));
+  // to.address
+  result = result.concat(addressContent(data.to.address, layout.address));
+  // to.names
+  result = result.concat(namesContent(data.to.names, layout.paper, mm2pt(30)));
+  // from.postalCode
+  result = result.concat(postalCodeContent(data.from.postalCode, layout.fromPostalCode));
+  canvas = canvas.concat(postalCodeCanvas(layout.fromPostalCode));
+  // from.address
+  result = result.concat(addressContent(data.from.address, layout.fromAddress));
+  // from.names
+  result = result.concat(fromNamesContent(data.from.names, layout.fromNames));
 
   result.push({canvas})
   console.log(result);
