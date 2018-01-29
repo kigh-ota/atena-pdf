@@ -58,4 +58,4 @@ const TEST_DATA = {
   }
 };
 
-PdfGenerator.generate(TEST_DATA, NENGA_POSTCARD_LAYOUT);
+PdfGenerator.generate(TEST_DATA, NENGA_POSTCARD_LAYOUT, 'fonts/ipaexm.ttf');

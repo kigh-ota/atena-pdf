@@ -2,29 +2,26 @@ const PdfPrinter = require('pdfmake/src/printer');
 const fs = require('fs');
 const ContentBuilder = require('./ContentBuilder');
 
-const fonts = {
-  IPAexMincho: {
-    normal: 'fonts/ipaexm.ttf',
-    bold: 'fonts/ipaexm.ttf',
-    italics: 'fonts/ipaexm.ttf',
-    bolditalics: 'fonts/ipaexm.ttf'
-  }
-};
-
-exports.generate = (data, layout) => {
+exports.generate = (data, layout, pathToTtf) => {
   const docDefinition = {
     pageSize: {
       width: layout.paper.w(),
       height: layout.paper.h()
     },
     pageMargins: [0, 0, 0, 0],
-    defaultStyle: {
-      font: 'IPAexMincho'
-    },
     content: new ContentBuilder().build(data, layout, true),
   };
-  const printer = new PdfPrinter(fonts);
-  const pdfDoc = printer.createPdfKitDocument(docDefinition);
+
+  const fonts = {
+    Roboto: {
+      normal: pathToTtf,
+      bold: pathToTtf,
+      italics: pathToTtf,
+      bolditalics: pathToTtf
+    }
+  };
+
+  const pdfDoc = new PdfPrinter(fonts).createPdfKitDocument(docDefinition);
   pdfDoc.pipe(fs.createWriteStream('out/print.pdf'));
   pdfDoc.end();
 };
