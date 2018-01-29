@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/kigh-ota/atena-pdf#readme",
   "dependencies": {
+    "csv-parse": "^2.0.0",
     "pdfmake": "^0.1.35"
   },
   "devDependencies": {

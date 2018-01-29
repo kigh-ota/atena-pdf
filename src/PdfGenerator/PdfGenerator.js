@@ -2,6 +2,30 @@ const PdfPrinter = require('pdfmake/src/printer');
 const fs = require('fs');
 const ContentBuilder = require('./ContentBuilder');
 
+/**
+ * Data:
+ *   to: [ToEntry]
+ *   from: FromEntry
+ *
+ * ToEntry:
+ *   postalCode
+ *   address
+ *   names: [ToName]
+ *
+ * ToName:
+ *   familyName
+ *   givenName
+ *   title
+ *
+ * FromEntry:
+ *   postalCode
+ *   address
+ *   names: [FromName]
+ *
+ * FromName:
+ *   familyName
+ *   givenName
+ */
 exports.generate = (data, layout, pathToTtf) => {
   const docDefinition = {
     pageSize: {
