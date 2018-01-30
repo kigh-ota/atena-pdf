@@ -3,7 +3,7 @@ const fs = require('fs');
 const ContentBuilder = require('./ContentBuilder');
 
 /**
- * Data:
+ * Entry:
  *   to: [ToEntry]
  *   from: FromEntry
  *
@@ -26,14 +26,14 @@ const ContentBuilder = require('./ContentBuilder');
  *   familyName
  *   givenName
  */
-exports.generate = (data, layout, pathToTtf) => {
+exports.generate = (entries, layout, pathToTtf) => {
   const docDefinition = {
     pageSize: {
       width: layout.paper.w(),
       height: layout.paper.h()
     },
     pageMargins: [0, 0, 0, 0],
-    content: new ContentBuilder().build(data, layout, true),
+    content: new ContentBuilder().build(entries, layout, true),
   };
 
   const fonts = {

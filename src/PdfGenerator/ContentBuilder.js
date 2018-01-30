@@ -3,40 +3,67 @@ module.exports = class ContentBuilder {
     this._contents = [];
   }
 
-  build(data, layout, showFrames) {
-    this._contents = [];
-    let canvas = [];
-    // to.postalCode
-    const toPostalCodeFontSize = this._postalCodeContent(data.to.postalCode, layout.postalCode, 11);
-    console.log(`to.postalCode: ${toPostalCodeFontSize} pt`);
-    canvas = canvas.concat(layout.postalCode.map(canvasRect));
-    // to.address
-    const toAddressFontSize = this._addressContent(data.to.address, layout.address);
-    console.log(`to.address: ${toAddressFontSize} pt`);
-    canvas = canvas.concat(canvasRect(layout.address));
-    // to.names
-    const toNamesFontSize = this._namesContent(data.to.names, layout.names);
-    console.log(`to.names: ${toNamesFontSize} pt`);
-    canvas = canvas.concat(canvasRect(layout.names));
-    // from.postalCode
-    const fromPostalCodeFontSize = this._postalCodeContent(data.from.postalCode, layout.fromPostalCode, 9);
-    console.log(`from.postalCode: ${fromPostalCodeFontSize} pt`);
-    canvas = canvas.concat(layout.fromPostalCode.map(canvasRect));
-    // from.address
-    const fromAddressFontSize = this._addressContent(data.from.address, layout.fromAddress);
-    console.log(`from.address: ${fromAddressFontSize} pt`);
-    canvas = canvas.concat(canvasRect(layout.fromAddress));
-    // from.names
-    const fromNamesFontSize = this._namesContent(data.from.names, layout.fromNames);
-    console.log(`from.names: ${fromNamesFontSize} pt`);
-    canvas = canvas.concat(canvasRect(layout.fromNames));
-
-    if (showFrames) {
-      this._contents.push();
-      this._contents.push({canvas});
+  build(entries, layout, showFrames) {
+    if (!(entries instanceof Array)) {
+      throw new Error();
     }
+    let frameCanvas = showFrames ? this._buildFrames(layout) : null;
+
+    this._contents = [];
+    entries.forEach((entry, i) => {
+      if (showFrames) {
+        this._contents.push({canvas: frameCanvas});
+      }
+      this._buildEntry(entry, layout, i === entries.length - 1);
+    });
+
     // console.log(result);
     return this._contents;
+  }
+
+  _buildFrames(layout) {
+    return Array.prototype.concat.apply([], [
+      layout.postalCode.map(canvasRect),
+      canvasRect(layout.address),
+      canvasRect(layout.names),
+      layout.fromPostalCode.map(canvasRect),
+      canvasRect(layout.fromAddress),
+      canvasRect(layout.fromNames),
+    ]);
+  }
+
+  _buildEntry(entry, layout, isLastPage) {
+    // to.postalCode
+    const toPostalCodeFontSize = this._postalCodeContent(entry.to.postalCode, layout.postalCode, 11);
+    console.log(`to.postalCode: ${toPostalCodeFontSize} pt`);
+
+    // to.address
+    const toAddressFontSize = this._addressContent(entry.to.address, layout.address);
+    console.log(`to.address: ${toAddressFontSize} pt`);
+
+    // to.names
+    const toNamesFontSize = this._namesContent(entry.to.names, layout.names);
+    console.log(`to.names: ${toNamesFontSize} pt`);
+
+    // from.postalCode
+    const fromPostalCodeFontSize = this._postalCodeContent(entry.from.postalCode, layout.fromPostalCode, 9);
+    console.log(`from.postalCode: ${fromPostalCodeFontSize} pt`);
+
+    // from.address
+    const fromAddressFontSize = this._addressContent(entry.from.address, layout.fromAddress);
+    console.log(`from.address: ${fromAddressFontSize} pt`);
+
+    // from.names
+    const fromNamesFontSize = this._namesContent(entry.from.names, layout.fromNames);
+    console.log(`from.names: ${fromNamesFontSize} pt`);
+
+    if (!isLastPage) {
+      this._insertPageBreak();
+    }
+  }
+
+  _insertPageBreak() {
+    this._contents.push({ text: '', pageBreak: 'after'});
   }
 
   _addressContent(body, box) {
