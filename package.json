@@ -7,7 +7,7 @@
     "start": "node $NODE_DEBUG_OPTION src/index.js",
     "lint": "eslint src/",
     "lint:fix": "npm run lint -- --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava -v test/"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "pdfmake": "^0.1.35"
   },
   "devDependencies": {
+    "ava": "^0.25.0",
     "eslint": "^4.16.0"
   }
 }
