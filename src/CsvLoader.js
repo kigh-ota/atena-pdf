@@ -1,6 +1,7 @@
 const parse = require('csv-parse/lib/sync');
 const fs = require('fs');
 
+// TODO 連名・敬称を別カラムでも指定できる
 module.exports = class CsvLoader {
   constructor() {}
 
@@ -17,13 +18,13 @@ module.exports = class CsvLoader {
   }
 
   _assertPropertiesExist(parsedJson) {
-    if (!parsedJson.hasOwnProperty('postalCode')) {
+    if (!parsedJson.hasOwnProperty('postalCode') || typeof parsedJson.postalCode !== 'string') {
       throw new Error('No postalCode');
     }
-    if (!parsedJson.hasOwnProperty('address')) {
+    if (!parsedJson.hasOwnProperty('address') || typeof parsedJson.address !== 'string') {
       throw new Error('No address');
     }
-    if (!parsedJson.hasOwnProperty('names')) {
+    if (!parsedJson.hasOwnProperty('names') || typeof parsedJson.names !== 'string') {
       throw new Error('No names');
     }
   }
