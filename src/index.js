@@ -17,7 +17,7 @@ if (!program.to || !program.from) {
 const fromJson = fs.readFileSync(program.from, {encoding: 'utf-8'});
 const from = JSON.parse(fromJson);
 
-const entries = new CsvLoader().loadCsv(program.to);
+const entries = new CsvLoader().loadCsvFile(program.to);
 
 PdfGenerator.generate(entries.map(entry => {
   return {to: entry, from};

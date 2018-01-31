@@ -25,9 +25,3 @@ test('_convertAddressLine', t => {
   t.is(sut._convertAddressLine('1−5'), '一｜五');
   t.is(sut._convertAddressLine('1―5'), '一｜五');
 });
-
-test('_convertName', t => {
-  t.deepEqual(sut._convertName('山田 太郎 先生'), {familyName: '山田', givenName: '太郎', title: '先生'});
-  t.throws(() => sut._convertName('山田太郎'));
-  t.throws(() => sut._convertName('山田 太郎'));
-});

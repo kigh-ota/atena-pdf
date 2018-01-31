@@ -1,18 +1,20 @@
 const parse = require('csv-parse/lib/sync');
 const fs = require('fs');
+const NamesConverter = require('./NamesConverter');
 
-// TODO 連名・敬称を別カラムでも指定できる
 module.exports = class CsvLoader {
-  constructor() {}
+  constructor() {
+    this._namesConverter = new NamesConverter();
+  }
 
-  loadCsv(csvPath) {
+  loadCsvFile(csvPath) {
     const csv = fs.readFileSync(csvPath, {encoding: 'utf-8'});
     return parse(csv, {columns: true}).map(entry => {
       this._assertPropertiesExist(entry);
       return {
         postalCode: this._convertPostalCode(entry.postalCode),
         address: this._convertAddress(entry.address),
-        names: this._convertNames(entry.names),
+        names: this._convertNames(entry.names, entry.jointNames, entry.title),
       };
     });
   }
@@ -58,19 +60,10 @@ module.exports = class CsvLoader {
       .replace(/[-−―ー]/g, '｜');
   }
 
-  _convertNames(str) {
-    return str.split('\n').map(this._convertName);
-  }
-
-  _convertName(str) {
-    const ary = str.split(/\s+/);
-    if (ary.length !== 3) {
-      throw new Error(`Invalid name: ${str}`);
-    }
-    return {
-      familyName: ary[0],
-      givenName: ary[1],
-      title: ary[2],
-    };
+  _convertNames(names, jointNames, title) {
+    return this._namesConverter.convert(
+      names.split('\n'),
+      jointNames ? jointNames.split('\n') : [],
+      title);
   }
 };
