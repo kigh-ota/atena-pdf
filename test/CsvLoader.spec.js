@@ -26,6 +26,7 @@ test('_convertAddressLine', t => {
   t.is(sut._convertAddressLine('1ー5'), '一｜五');
   t.is(sut._convertAddressLine('1−5'), '一｜五');
   t.is(sut._convertAddressLine('1―5'), '一｜五');
+  t.is(sut._convertAddressLine('1－5'), '一｜五');
 });
 
 test('_applyColumnMap', t => {

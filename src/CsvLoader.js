@@ -79,7 +79,7 @@ module.exports = class CsvLoader {
       .replace(/[7７]/g, '七')
       .replace(/[8８]/g, '八')
       .replace(/[9９]/g, '九')
-      .replace(/[-−―ー]/g, '｜');
+      .replace(/[-−―ー－]/g, '｜');
   }
 
   _convertNames(names, jointNames, title) {
