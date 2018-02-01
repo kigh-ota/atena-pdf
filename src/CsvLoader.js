@@ -51,6 +51,9 @@ module.exports = class CsvLoader {
   }
 
   _convertPostalCode(str) {
+    if (!str) {
+      return undefined;
+    }
     const pc = str
       .replace(/[0-9]/g, (c) => String.fromCharCode(c.charCodeAt(0) + 0xFEE0))
       .replace(/[^０-９]/g, '');

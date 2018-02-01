@@ -10,6 +10,8 @@ test.beforeEach(t => {
 test('_convertPostalCode', t => {
   t.is(sut._convertPostalCode('123-4567'), '１２３４５６７');
   t.is(sut._convertPostalCode('1234567'), '１２３４５６７');
+  t.is(sut._convertPostalCode(''), undefined);
+  t.is(sut._convertPostalCode(undefined), undefined);
   t.throws(() => sut._convertPostalCode('一二三四五六七'));
   t.throws(() => sut._convertPostalCode('123-45'));
   t.throws(() => sut._convertPostalCode('12345678'));

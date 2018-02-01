@@ -34,8 +34,10 @@ module.exports = class ContentBuilder {
 
   _buildEntry(entry, layout, isLastPage) {
     // to.postalCode
-    const toPostalCodeFontSize = this._postalCodeContent(entry.to.postalCode, layout.postalCode, 11);
-    console.log(`to.postalCode: ${toPostalCodeFontSize} pt`);
+    if (entry.to.postalCode) {
+      const toPostalCodeFontSize = this._postalCodeContent(entry.to.postalCode, layout.postalCode, 11);
+      console.log(`to.postalCode: ${toPostalCodeFontSize} pt`);
+    }
 
     // to.address
     const toAddressFontSize = this._addressContent(entry.to.address, layout.address);
@@ -46,8 +48,10 @@ module.exports = class ContentBuilder {
     console.log(`to.names: ${toNamesFontSize} pt`);
 
     // from.postalCode
-    const fromPostalCodeFontSize = this._postalCodeContent(entry.from.postalCode, layout.fromPostalCode, 9);
-    console.log(`from.postalCode: ${fromPostalCodeFontSize} pt`);
+    if (entry.from.postalCode) {
+      const fromPostalCodeFontSize = this._postalCodeContent(entry.from.postalCode, layout.fromPostalCode, 9);
+      console.log(`from.postalCode: ${fromPostalCodeFontSize} pt`);
+    }
 
     // from.address
     const fromAddressFontSize = this._addressContent(entry.from.address, layout.fromAddress);
