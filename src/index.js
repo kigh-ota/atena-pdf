@@ -6,16 +6,19 @@ const fs = require('fs');
 
 program
   .option('--to <toCsvPath>', '宛先データ(CSV) [必須]')
-  .option('--from <fromJsonPath>', '差出人データ(JSON) [必須]')
+  .option('--from <fromJsonPath>', '差出人データ(JSON)')
   .option('--columnMap <columnMapJsonPath>', 'CSVのカラム名')
   .parse(process.argv);
 
-if (!program.to || !program.from) {
+if (!program.to) {
   program.outputHelp();
   process.exit(1);
 }
 
-const from = JSON.parse(fs.readFileSync(program.from, {encoding: 'utf-8'}));
+let from;
+if (program.from) {
+  from = JSON.parse(fs.readFileSync(program.from, {encoding: 'utf-8'}));
+}
 
 let columnMap;
 if (program.columnMap) {

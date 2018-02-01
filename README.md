@@ -21,19 +21,5 @@
 ## 使い方
 
 ```bash
-  Usage: index [options]
-
-
-  Options:
-
-    --to <toCsvPath>                 宛先データ(CSV) [必須]
-    --from <fromJsonPath>            差出人データ(JSON) [必須]
-    --columnMap <columnMapJsonPath>  CSVのカラム名
-    -h, --help                       output usage information
-```
-
-### サンプルデータを使って実行
-
-```bash
 $ node src/index.js --to sample/to.csv --from sample/from.json --columnMap sample/columnMap.json
 ```

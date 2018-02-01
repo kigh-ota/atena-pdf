@@ -47,19 +47,21 @@ module.exports = class ContentBuilder {
     const toNamesFontSize = this._namesContent(entry.to.names, layout.names);
     console.log(`to.names: ${toNamesFontSize} pt`);
 
-    // from.postalCode
-    if (entry.from.postalCode) {
-      const fromPostalCodeFontSize = this._postalCodeContent(entry.from.postalCode, layout.fromPostalCode, 9);
-      console.log(`from.postalCode: ${fromPostalCodeFontSize} pt`);
+    if (entry.from) {
+      // from.postalCode
+      if (entry.from.postalCode) {
+        const fromPostalCodeFontSize = this._postalCodeContent(entry.from.postalCode, layout.fromPostalCode, 9);
+        console.log(`from.postalCode: ${fromPostalCodeFontSize} pt`);
+      }
+
+      // from.address
+      const fromAddressFontSize = this._addressContent(entry.from.address, layout.fromAddress);
+      console.log(`from.address: ${fromAddressFontSize} pt`);
+
+      // from.names
+      const fromNamesFontSize = this._namesContent(entry.from.names, layout.fromNames);
+      console.log(`from.names: ${fromNamesFontSize} pt`);
     }
-
-    // from.address
-    const fromAddressFontSize = this._addressContent(entry.from.address, layout.fromAddress);
-    console.log(`from.address: ${fromAddressFontSize} pt`);
-
-    // from.names
-    const fromNamesFontSize = this._namesContent(entry.from.names, layout.fromNames);
-    console.log(`from.names: ${fromNamesFontSize} pt`);
 
     if (!isLastPage) {
       this._insertPageBreak();
