@@ -8,6 +8,7 @@ program
   .option('--to <toCsvPath>', '宛先データ(CSV) [必須]')
   .option('--from <fromJsonPath>', '差出人データ(JSON)')
   .option('--columnMap <columnMapJsonPath>', 'CSVのカラム名')
+  .option('--showFrames', '確認用の枠を出力する')
   .parse(process.argv);
 
 if (!program.to) {
@@ -28,4 +29,4 @@ const entries = new CsvLoader().loadCsvFile(program.to, columnMap);
 
 PdfGenerator.generate(entries.map(entry => {
   return {to: entry, from};
-}), NENGA_POSTCARD_LAYOUT, 'fonts/ipaexm.ttf');
+}), NENGA_POSTCARD_LAYOUT, 'fonts/ipaexm.ttf', program.showFrames);

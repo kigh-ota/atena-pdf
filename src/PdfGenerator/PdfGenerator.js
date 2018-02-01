@@ -26,14 +26,14 @@ const ContentBuilder = require('./ContentBuilder');
  *   familyName
  *   givenName
  */
-exports.generate = (entries, layout, pathToTtf) => {
+exports.generate = (entries, layout, pathToTtf, showFrames) => {
   const docDefinition = {
     pageSize: {
       width: layout.paper.w(),
       height: layout.paper.h()
     },
     pageMargins: [0, 0, 0, 0],
-    content: new ContentBuilder().build(entries, layout, true),
+    content: new ContentBuilder().build(entries, layout, showFrames),
   };
 
   const fonts = {
