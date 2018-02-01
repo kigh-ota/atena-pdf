@@ -2,7 +2,7 @@
 
 ## これは何か
 
-はがき宛名印刷に使えるPDFファイルを生成する。
+家庭でのハガキ宛名印刷に使えるPDFファイルを生成する。
 
 - 宛名や住所などを縦書きで出力できる
 - データ：他ソフトウェアで作成したものをCSV形式などで渡す
@@ -18,29 +18,22 @@
 - フォントの提供
 - 業務用途向けの機能
 
-## 対応項目
+## 使い方
 
-### TODO
+```bash
+  Usage: index [options]
 
-- 宛先
-    - 郵便番号 http://www.post.japanpost.jp/zipcode/zipmanual/p05.html
-    - 住所
-    - 名前
-        - 連名
-        - 敬称
-- 差出人
-    - 郵便番号
-    - 住所
-    - 名前
-        - 連名
 
-## 対応用紙
+  Options:
 
-### TODO
+    --to <toCsvPath>                 宛先データ(CSV) [必須]
+    --from <fromJsonPath>            差出人データ(JSON) [必須]
+    --columnMap <columnMapJsonPath>  CSVのカラム名
+    -h, --help                       output usage information
+```
 
-- 年賀はがき
-- 郵便はがき
+### サンプルデータを使って実行
 
-## その他
-
-- 縦書きハイフンどうするか
+```bash
+$ node src/index.js --to sample/to.csv --from sample/from.json --columnMap sample/columnMap.json
+```

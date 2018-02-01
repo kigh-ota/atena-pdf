@@ -2,14 +2,23 @@ const parse = require('csv-parse/lib/sync');
 const fs = require('fs');
 const NamesConverter = require('./NamesConverter');
 
+const DEFAULT_COLUMN_MAP = {
+  postalCode: 'postalCode',
+  address: 'address',
+  names: 'names',
+  jointNames: 'jointNames',
+  title: 'title',
+};
+
 module.exports = class CsvLoader {
   constructor() {
     this._namesConverter = new NamesConverter();
   }
 
-  loadCsvFile(csvPath) {
+  loadCsvFile(csvPath, columnMap) {
     const csv = fs.readFileSync(csvPath, {encoding: 'utf-8'});
     return parse(csv, {columns: true}).map(entry => {
+      entry = this._applyColumnMap(entry, columnMap);
       this._assertPropertiesExist(entry);
       return {
         postalCode: this._convertPostalCode(entry.postalCode),
@@ -17,6 +26,16 @@ module.exports = class CsvLoader {
         names: this._convertNames(entry.names, entry.jointNames, entry.title),
       };
     });
+  }
+
+  _applyColumnMap(entry, columnMap = DEFAULT_COLUMN_MAP) {
+    return {
+      postalCode: entry[columnMap.postalCode],
+      address: entry[columnMap.address],
+      names: entry[columnMap.names],
+      jointNames: entry[columnMap.jointNames],
+      title: entry[columnMap.title],
+    };
   }
 
   _assertPropertiesExist(parsedJson) {

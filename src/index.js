@@ -7,6 +7,7 @@ const fs = require('fs');
 program
   .option('--to <toCsvPath>', '宛先データ(CSV) [必須]')
   .option('--from <fromJsonPath>', '差出人データ(JSON) [必須]')
+  .option('--columnMap <columnMapJsonPath>', 'CSVのカラム名')
   .parse(process.argv);
 
 if (!program.to || !program.from) {
@@ -14,10 +15,13 @@ if (!program.to || !program.from) {
   process.exit(1);
 }
 
-const fromJson = fs.readFileSync(program.from, {encoding: 'utf-8'});
-const from = JSON.parse(fromJson);
+const from = JSON.parse(fs.readFileSync(program.from, {encoding: 'utf-8'}));
 
-const entries = new CsvLoader().loadCsvFile(program.to);
+let columnMap;
+if (program.columnMap) {
+  columnMap = JSON.parse(fs.readFileSync(program.columnMap, {encoding: 'utf-8'}));
+}
+const entries = new CsvLoader().loadCsvFile(program.to, columnMap);
 
 PdfGenerator.generate(entries.map(entry => {
   return {to: entry, from};

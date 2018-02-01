@@ -4,7 +4,7 @@
   "description": "宛名印刷用PDF生成",
   "main": "src/index.js",
   "scripts": {
-    "start": "node $NODE_DEBUG_OPTION src/index.js --to sample/to.csv --from sample/from.json",
+    "start": "node $NODE_DEBUG_OPTION src/index.js --to sample/to.csv --from sample/from.json --columnMap sample/columnMap.json",
     "lint": "eslint src/",
     "lint:fix": "npm run lint -- --fix",
     "test": "ava -v test/"
