@@ -1,6 +1,6 @@
-const CsvLoader = require('./CsvLoader');
-const PdfGenerator = require('./PdfGenerator/PdfGenerator');
-const NENGA_POSTCARD_LAYOUT = require('./PdfGenerator/Layout').NENGA_POSTCARD;
+const CsvLoader = require('./core/CsvLoader');
+const PdfGenerator = require('./core/PdfGenerator/PdfGenerator');
+const NENGA_POSTCARD_LAYOUT = require('./core/PdfGenerator/Layout').NENGA_POSTCARD;
 const program = require('commander');
 const fs = require('fs');
 

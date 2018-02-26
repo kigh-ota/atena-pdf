@@ -1,5 +1,5 @@
 import test from 'ava';
-import NamesConverter from '../src/NamesConverter';
+import NamesConverter from '../src/core/NamesConverter';
 
 let sut;
 

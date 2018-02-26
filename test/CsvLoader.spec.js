@@ -1,5 +1,5 @@
 import test from 'ava';
-import CsvLoader from '../src/CsvLoader';
+import CsvLoader from '../src/core/CsvLoader';
 
 let sut;
 
